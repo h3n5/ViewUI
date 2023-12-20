@@ -8,9 +8,9 @@
  */
 function getTarget (node) {
     if (node === void 0) {
-        node = document.body
+        node = document.getElementById('transferDom') || document.body
     }
-    if (node === true) { return document.body }
+    if (node === true) { return document.getElementById('transferDom') || document.body }
     return node instanceof window.Node ? node : document.querySelector(node)
 }
 

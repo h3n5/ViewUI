@@ -358,7 +358,16 @@
                     if (this.currentView === 'time'){
                         this.dates = val;
                     } else {
-                        const [minDate, maxDate] = [this.rangeState.from, val].sort(dateSorter);
+                        let [minDate, maxDate] = [this.rangeState.from, val].sort(dateSorter);
+
+                        // 将范围右边的时间固定为23:59:59 by chen
+                        const modifyTime = function(date, h, m, s) {
+                            return new Date(date.getFullYear(), date.getMonth(), date.getDate(), h, m, s, date.getMilliseconds());
+                        };
+                        const defaultRigthTime = '23:59:59';  
+                        maxDate = modifyTime(maxDate, ...defaultRigthTime.split(':'));
+
+
                         this.dates = [minDate, maxDate];
                         this.rangeState = {
                             from: minDate,

@@ -16,6 +16,7 @@
                 :eventsEnabled="eventsEnabled"
                 :data-transfer="transfer"
                 :transfer="transfer"
+                :boundariesElement="boundariesElement"
                 v-transfer-dom><slot name="list"></slot></Drop>
         </transition>
     </div>
@@ -73,6 +74,10 @@
             eventsEnabled: {
                 type: Boolean,
                 default: false
+            },
+            boundariesElement: {
+            // type: [String, HTMLElement],
+                default: 'window'
             }
         },
         computed: {

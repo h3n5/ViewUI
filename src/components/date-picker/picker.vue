@@ -229,7 +229,15 @@
             eventsEnabled: {
                 type: Boolean,
                 default: false
-            }
+            },
+            toEnd: {
+                type: Boolean,
+                default: false
+            },
+            specificTime: {
+                type: String,
+                default: ''
+            }            
         },
         data(){
             const isRange = this.type.includes('range');
@@ -702,7 +710,8 @@
                 ).parser;
                 const format = this.format || DEFAULT_FORMATS[type];
                 const multipleParser = TYPE_VALUE_RESOLVER_MAP['multiple'].parser;
-
+                let dateVal = new Date(val);
+                let zeorValue = dateVal.getHours() === 0 && dateVal.getMinutes() === 0 && dateVal.getSeconds() === 0; // by chen
                 if (val && type === 'time' && !(val instanceof Date)) {
                     val = parser(val, format, this.separator);
                 } else if (this.multiple && val) {
@@ -727,9 +736,12 @@
                         }
                     }
                 } else if (typeof val === 'string' && type.indexOf('time') !== 0){
-                    val = parser(val, format) || null;
+                    val = this.specificTime ? parser(zeorValue ? val.replace(/00:00/, this.specificTime) : val, format) : parser(val, format) || null;
                 }
-
+                if(this.specificTime && zeorValue) {
+                    val.setHours(+this.specificTime.split(':')[0]);
+                    val.setMinutes(+this.specificTime.split(':')[1]);
+                }
                 return (isRange || this.multiple) ? (val || []) : [val];
             },
             formatDate(value){
