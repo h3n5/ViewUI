@@ -8,7 +8,7 @@
             <span @click="handlePreview(file)">
                 <Icon :type="format(file)"></Icon> {{ file.name }}
             </span>
-            <slot name="file-extra" :file="file"></slot>
+            <slot name="extra" :file="file"></slot>
             <Icon
                 type="ios-close"
                 :class="[prefixCls + '-list-remove']"
